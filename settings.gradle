@@ -8,3 +8,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "PaymentHelper"
 include ':app'
+include ':Payment'
