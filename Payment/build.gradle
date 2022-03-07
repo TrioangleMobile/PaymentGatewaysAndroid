@@ -55,7 +55,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     //credit or debit call integration dependencies
-    implementation 'com.stripe:stripe-android:16.9.0'
+    implementation 'com.stripe:stripe-android:19.2.0'
     implementation 'com.braintreepayments.api:braintree:3.14.2'
 
 }
