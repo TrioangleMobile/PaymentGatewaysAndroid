@@ -25,6 +25,6 @@ object NonceCreation : PaymentMethodNonceCreatedListener {
     }
 
     override fun onPaymentMethodNonceCreated(paymentMethodNonce: PaymentMethodNonce?) {
-        paypalPaymentListener!!.OnPaypalPaymentComplete(paymentMethodNonce!!) //paykey
+        paypalPaymentListener!!.OnPaypalPaymentComplete(paymentMethodNonce!!.toString()) //paykey
     }
 }

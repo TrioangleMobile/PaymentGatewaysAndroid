@@ -23,7 +23,7 @@ object PaypalPayment {
      * Interface to listen the Facebook login
      */
     interface OnPaypalPaymentListner {
-        fun OnPaypalPaymentComplete(paymentMethodNonce: PaymentMethodNonce?)
+        fun OnPaypalPaymentComplete(paymentMethodNonce: String?)
     }
 
     fun PaypalPayment(
