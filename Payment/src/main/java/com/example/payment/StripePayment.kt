@@ -109,8 +109,7 @@ object StripePayment {
         privacyURL: String
     ): ConfirmPaymentIntentParams {
         return ConfirmPaymentIntentParams.create(
-            clientSecret,
-            privacyURL
+            clientSecret
         )
     }
 }
