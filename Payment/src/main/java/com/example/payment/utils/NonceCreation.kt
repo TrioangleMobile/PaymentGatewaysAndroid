@@ -11,10 +11,12 @@ object NonceCreation : PaymentMethodNonceCreatedListener {
     var mBraintreeFragment: BraintreeFragment? = null
     private var paypalPaymentListener: PaypalPayment.OnPaypalPaymentListner? = null
 
-    fun initBraintree(braintreeClientToken: String, activity: AppCompatActivity) {
+
+    fun initBraintree(braintreeClientToken: String, activity: AppCompatActivity, paypalPaymentListener: PaypalPayment.OnPaypalPaymentListner?) {
         val mAuthorization: String = braintreeClientToken
 
         try {
+            this.paypalPaymentListener = paypalPaymentListener
             mBraintreeFragment = BraintreeFragment.newInstance(activity, mAuthorization)
         } catch (e: Exception) {
             e.printStackTrace()

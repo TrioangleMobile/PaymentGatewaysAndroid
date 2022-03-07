@@ -17,6 +17,7 @@ object PaypalPayment {
 
     var payableCurrency: String? = null
 
+    private var paypalPaymentListener: OnPaypalPaymentListner? = null
 
 
     /**
@@ -30,12 +31,14 @@ object PaypalPayment {
         activity: AppCompatActivity,
         braintreeClientToken: String,
         payableAmount: String,
-        payableCurrency: String
+        payableCurrency: String,
+        paypalPaymentListener: OnPaypalPaymentListner?
     ) {
         this.activity = activity
         this.braintreeClientToken = braintreeClientToken
         this.payableAmount = payableAmount
         this.payableCurrency = payableCurrency
+        this.paypalPaymentListener = paypalPaymentListener
     }
 
     /**
@@ -45,9 +48,7 @@ object PaypalPayment {
 
         val nonceCreation = NonceCreation
 
-        nonceCreation.initBraintree(braintreeClientToken!!, activity!!)
-
-        initiateBraintree(braintreeClientToken!!)
+        nonceCreation.initBraintree(braintreeClientToken!!, activity!!, paypalPaymentListener)
 
         val amount = payableAmount
         val currencycode = payableCurrency
@@ -57,10 +58,5 @@ object PaypalPayment {
             .intent(PayPalRequest.INTENT_SALE)
         PayPal.requestOneTimePayment(nonceCreation.mBraintreeFragment, request)
     }
-
-    fun initiateBraintree(braintreeClientToken: String) {
-        NonceCreation.initBraintree(braintreeClientToken, activity!!)
-    }
-
 
 }
