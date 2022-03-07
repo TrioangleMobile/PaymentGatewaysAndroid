@@ -1,13 +1,12 @@
 package com.example.payment
 
 import androidx.appcompat.app.AppCompatActivity
-import com.braintreepayments.api.BraintreeFragment
 import com.braintreepayments.api.PayPal
-import com.braintreepayments.api.interfaces.PaymentMethodNonceCreatedListener
 import com.braintreepayments.api.models.PayPalRequest
 import com.braintreepayments.api.models.PaymentMethodNonce
+import com.example.payment.utils.NonceCreation
 
-object PaypalPayment : PaymentMethodNonceCreatedListener {
+object PaypalPayment {
 
     // Activity instance
     private var activity: AppCompatActivity? = null
@@ -18,8 +17,7 @@ object PaypalPayment : PaymentMethodNonceCreatedListener {
 
     var payableCurrency: String? = null
 
-    private var mBraintreeFragment: BraintreeFragment? = null
-    private var paypalPaymentListener: OnPaypalPaymentListner? = null
+
 
     /**
      * Interface to listen the Facebook login
@@ -45,31 +43,24 @@ object PaypalPayment : PaymentMethodNonceCreatedListener {
      */
     fun payWithPaypal() {
 
+        val nonceCreation = NonceCreation
+
+        nonceCreation.initBraintree(braintreeClientToken!!, activity!!)
+
         initiateBraintree(braintreeClientToken!!)
 
-        var amount = payableAmount
-        var currencycode = payableCurrency
+        val amount = payableAmount
+        val currencycode = payableCurrency
 
         val request = PayPalRequest(amount)
             .currencyCode(currencycode)
             .intent(PayPalRequest.INTENT_SALE)
-        PayPal.requestOneTimePayment(mBraintreeFragment, request)
+        PayPal.requestOneTimePayment(nonceCreation.mBraintreeFragment, request)
     }
 
     fun initiateBraintree(braintreeClientToken: String) {
-        val mAuthorization: String = braintreeClientToken
-
-        try {
-            mBraintreeFragment = BraintreeFragment.newInstance(activity, mAuthorization)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        // mBraintreeFragment is ready to use!
-
-        mBraintreeFragment?.addListener(this)
+        NonceCreation.initBraintree(braintreeClientToken, activity!!)
     }
 
-    override fun onPaymentMethodNonceCreated(paymentMethodNonce: PaymentMethodNonce?) {
-        paypalPaymentListener!!.OnPaypalPaymentComplete(paymentMethodNonce!!) //paykey
-    }
+
 }
