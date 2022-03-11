@@ -1,9 +1,6 @@
 package com.example.payment
 
 import androidx.appcompat.app.AppCompatActivity
-import com.braintreepayments.api.PayPal
-import com.braintreepayments.api.models.PayPalRequest
-import com.braintreepayments.api.models.PaymentMethodNonce
 import com.example.payment.utils.NonceCreation
 
 object PaypalPayment {
@@ -18,6 +15,8 @@ object PaypalPayment {
     var payableCurrency: String? = null
 
     private var paypalPaymentListener: OnPaypalPaymentListner? = null
+
+    private var nonceCreation: NonceCreation? = null
 
 
     /**
@@ -46,17 +45,13 @@ object PaypalPayment {
      */
     fun payWithPaypal() {
 
-        val nonceCreation = NonceCreation
+        nonceCreation = NonceCreation
 
-        nonceCreation.initBraintree(braintreeClientToken!!, activity!!, paypalPaymentListener)
-
-        val amount = payableAmount
-        val currencycode = payableCurrency
-
-        val request = PayPalRequest(amount)
-            .currencyCode(currencycode)
-            .intent(PayPalRequest.INTENT_SALE)
-        PayPal.requestOneTimePayment(nonceCreation.mBraintreeFragment, request)
+        nonceCreation!!.initBraintree(braintreeClientToken!!, activity!!, paypalPaymentListener)
     }
 
+
+    fun destroyBraintreeFragment() {
+        nonceCreation!!.destroyBraintreeFragment()
+    }
 }
